@@ -10,65 +10,67 @@ Openvpn Plugin Cookbook
 [codeclimate]: https://codeclimate.com/github/socrata-cookbooks/openvpn-plugin
 [coveralls]: https://coveralls.io/r/socrata-cookbooks/openvpn-plugin
 
-TODO: Enter the cookbook description here.
+A Chef cookbook for managing OpenVPN server plugins.
 
 Requirements
 ============
 
-TODO: Describe cookbook dependencies.
+This cookbook does ***not*** install OpenVPN. Doing that is up to you and/or
+the [openvpn](https://supermarket.chef.io/cookbooks/openvpn) cookbook.
+
+It uses custom resources which require either Chef >= 12.5 or Chef 12.x and the
+[compat_resource](https://supermarket.chef.io/cookbooks/compat_resource)
+cookbook.
 
 Usage
 =====
 
-TODO: Describe how to use the cookbook.
+Make use of the included custom resources in recipes or resources of your own.
 
 Recipes
 =======
 
-***default***
-
-TODO: Describe each component recipe.
+N/A
 
 Attributes
 ==========
 
-***default***
-
-TODO: Describe any noteworthy attributes.
+N/A
 
 Resources
 =========
 
 ***openvpn_plugin***
 
-TODO: Describe each included resource.
+A custom resource for managing OpenVPN plugins. It currently supports two
+plugins--duo and okta.
 
 Syntax:
 
-    openvpn_plugin 'my_resource' do
-        attribute1 'value1'
-        action :create
+    openvpn_plugin 'duo' do
+      plugin_name 'duo'
+      repo_name 'packagecloud-user/repo'
+      package_name 'duo-openvpn' 
+      action :install
     end
 
 Actions:
 
-| Action  | Description  |
-|---------|--------------|
-| action1 | Do something |
+| Action     | Description        |
+|------------|--------------------|
+| `:install` | Install the plugin |
+| `:upgrade` | Upgrade the plugin |
+| `:remove`  | Remove the plugin  | 
 
 Attributes:
 
-| Attribute  | Default        | Description          |
-|------------|----------------|----------------------|
-| attribute1 | `'some_value'` | Do something         |
-| action     | `:create`      | Action(s) to perform |
-
-Providers
-=========
-
-TODO: Describe each included provider
-
-***Chef::Provider::SomeProvider***
+| Attribute    | Default         | Description            |
+|--------------|-----------------|------------------------|
+| plugin_name  | Resource name   | Name of the plugin     |
+| repo_name    | Based on plugin | PackageCloud repo name |
+| package_name | Based on plugin | Package name           |
+| version      | `nil`           | Version to install     |
+| action       | `:install`      | Action(s) to perform   |
 
 Contributing
 ============

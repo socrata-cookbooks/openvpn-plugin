@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: openvpn-plugin
-# Recipe:: default
+# Library:: matchers
 #
 # Copyright 2016, Socrata, Inc.
 #
@@ -18,3 +18,16 @@
 # limitations under the License.
 #
 
+if defined?(ChefSpec)
+  {
+    openvpn_plugin: %i(install upgrade remove)
+  }.each do |resource, actions|
+    ChefSpec.define_matcher(resource)
+
+    actions.each do |action|
+      define_method("#{action}_#{resource}") do |name|
+        ChefSpec::Matchers::ResourceMatcher.new(resource, action, name)
+      end
+    end
+  end
+end
